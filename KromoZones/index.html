@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KromoZones - Passerelle Streaming Musicale</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <link href="https://googleapis.com" rel="stylesheet">
+</head>
+<body class="dark-theme">
+
+    <!-- LECTEUR INVISIBLE : Le pont direct avec les serveurs de streaming YouTube -->
+    <div id="ytHiddenPlayer" style="display: none; position: absolute; pointer-events: none;"></div>
+
+    <header>
+        <div class="logo"><i class="fa-solid fa-circle-nodes"></i> KromoZones</div>
+        <div class="search-container">
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Rechercher une passerelle audio (titre, artiste)...">
+            </div>
+        </div>
+        <button class="theme-btn" id="themeToggleBtn"><i class="fa-solid fa-sun"></i> Mode Clair</button>
+    </header>
+
+    <div class="categories-section">
+        <button class="category-pill active" onclick="filterGenre('all', this)">✨ Tout</button>
+        <button class="category-pill" onclick="filterGenre('Afro', this)">🌍 Afro</button>
+        <button class="category-pill" onclick="filterGenre('Rap', this)">🎤 Rap</button>
+        <button class="category-pill" onclick="filterGenre('Pop', this)">🎵 Pop</button>
+    </div>
+
+    <main>
+        <div class="music-grid" id="musicGrid"></div>
+    </main>
+
+    <!-- INTERFACE CLIENT SYNCHRONISÉE AVEC LE FLUX EXTÉRIEUR -->
+    <div class="audio-player">
+        <div class="player-info">
+            <img src="https://unsplash.com" id="playerCover">
+            <div class="track-details">
+                <h4 id="playerTitle">Sélectionnez un canal</h4>
+                <p id="playerArtist">Passerelle YouTube / Tubidy active</p>
+            </div>
+        </div>
+
+        <div class="player-controls">
+            <div class="control-buttons-group">
+                <button class="circle-btn" id="shuffleBtn" onclick="toggleShuffle()"><i class="fa-solid fa-shuffle"></i></button>
+                <button class="circle-btn" onclick="prevTrack()"><i class="fa-solid fa-backward-step"></i></button>
+                <button class="circle-btn main-play" id="playBtn" onclick="togglePlay()"><i class="fa-solid fa-play"></i></button>
+                <button class="circle-btn" onclick="nextTrack()"><i class="fa-solid fa-forward-step"></i></button>
+                <button class="circle-btn" id="repeatBtn" onclick="toggleRepeat()"><i class="fa-solid fa-repeat"></i></button>
+            </div>
+            <div class="progress-bar-wrapper">
+                <span id="currentTime">0:00</span>
+                <input type="range" id="progress" value="0" min="0" max="100">
+                <span id="duration">0:00</span>
+            </div>
+        </div>
+
+        <div class="player-right-zone">
+            <div class="volume-zone">
+                <i class="fa-solid fa-volume-high" id="volumeIcon"></i>
+                <input type="range" id="volumeSlider" min="0" max="100" value="100">
+            </div>
+            <button class="tubidy-download-btn" id="downloadBtn" onclick="downloadViaTubidyBridge()" disabled>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i> Tubidy MP3
+            </button>
+        </div>
+    </div>
+
+    <!-- Chargement asynchrone sécurisé de l'infrastructure API YouTube officielle -->
+    <script src="https://youtube.com"></script>
+    <script src="script.js"></script>
+</body>
+</html>
